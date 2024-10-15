@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 type TH1Props = {
-    className: string;
+    className?: string;
     children: React.ReactNode;
 };
 
