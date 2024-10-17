@@ -3,23 +3,28 @@ import H1 from "@/components/h1";
 import { Suspense } from "react";
 import Loading from "./loading";
 import { capitalize } from "@/lib/utils";
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
-type TEventsPageProps = {
+type Props = {
     params: {
         city: string;
     };
 };
 
-export function generateMetadata({ params }: TEventsPageProps): Metadata {
+type TEventsPageProps = Props & {
+    searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export function generateMetadata({ params }: Props): Metadata {
     const city = params.city;
     return {
         title: city === "all" ? "All Events" : `Events in ${capitalize(city)}`,
     };
 }
 
-export default async function page({ params }: TEventsPageProps) {
+export default async function page({ params, searchParams }: TEventsPageProps) {
     const city = params.city;
+    const page = searchParams.page || 1;
 
     return (
         <main className="flex flex-col items-center py-24 px-[20px] min-h-[110vh]">
@@ -28,7 +33,7 @@ export default async function page({ params }: TEventsPageProps) {
                 {city !== "all" && `Events in ${capitalize(city)}`}
             </H1>
             <Suspense fallback={<Loading />}>
-                <EventsList city={city} />
+                <EventsList city={city} page={+page} />
             </Suspense>
         </main>
     );
