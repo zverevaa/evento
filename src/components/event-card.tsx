@@ -1,16 +1,38 @@
+"use client";
+
 import { TEventoEvent } from "@/lib/types";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 
 type TEventCardProps = {
     event: TEventoEvent;
 };
 
+const MotionLink = motion(Link);
+
 export default function EventCard({ event }: TEventCardProps) {
+    const ref = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["0 1", "1.5 1"],
+    });
+    const scaleProgress = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
+    const opacityProgress = useTransform(scrollYProgress, [0, 1], [0.3, 1]);
+
     return (
-        <Link
+        <MotionLink
+            ref={ref}
             className="flex-1 h-[380px] basis-80 max-w-[500px]"
             href={`/event/${event.slug}`}
+            style={{
+                //@ts-ignore
+                scale: scaleProgress,
+                //@ts-ignore
+                opacity: opacityProgress,
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
         >
             <section className="w-full h-full relative flex flex-col bg-white/[3%] rounded-xl overflow-hidden state-effects">
                 <Image
@@ -43,6 +65,6 @@ export default function EventCard({ event }: TEventCardProps) {
                     </p>
                 </section>
             </section>
-        </Link>
+        </MotionLink>
     );
 }
