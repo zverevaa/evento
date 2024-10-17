@@ -18,6 +18,18 @@ export async function generateMetadata({
     };
 }
 
+export async function generateStaticParams() {
+    //most popular events
+    return [
+        {
+            slug: "comedy-extravaganza",
+        },
+        {
+            slug: "dj-practice-session",
+        },
+    ];
+}
+
 export default async function EventPage({ params }: TEventPageProps) {
     const event = await getEvent(params.slug);
 
