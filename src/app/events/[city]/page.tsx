@@ -28,7 +28,6 @@ const pageNumberSchema = z.coerce.number().int().positive().optional();
 export default async function page({ params, searchParams }: TEventsPageProps) {
     const city = params.city;
     const parsedPage = pageNumberSchema.safeParse(searchParams.page);
-
     if (!parsedPage.success) {
         throw new Error("Invalid page number");
     }
@@ -39,7 +38,7 @@ export default async function page({ params, searchParams }: TEventsPageProps) {
                 {city !== "all" && `Events in ${capitalize(city)}`}
             </H1>
             <Suspense key={city + parsedPage.data} fallback={<Loading />}>
-                <EventsList city={city} page={parsedPage.data} />
+                <EventsList city={city} page={parsedPage.data || 1} />
             </Suspense>
         </main>
     );
