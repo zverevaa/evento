@@ -1,6 +1,5 @@
 import EventsList from "@/components/events-list";
 import H1 from "@/components/h1";
-import { TEventoEvent } from "@/lib/types";
 import { Suspense } from "react";
 import Loading from "./loading";
 
