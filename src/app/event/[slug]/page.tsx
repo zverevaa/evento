@@ -1,5 +1,5 @@
 import H1 from "@/components/h1";
-import { capitalize } from "@/lib/utils";
+import { capitalize, getEvent } from "@/lib/utils";
 import { Metadata } from "next";
 import Image from "next/image";
 
@@ -12,22 +12,14 @@ type TEventPageProps = {
 export async function generateMetadata({
     params,
 }: TEventPageProps): Promise<Metadata> {
-    const slug = params.slug;
-    const response = await fetch(
-        `https://bytegrad.com/course-assets/projects/evento/api/events/${slug}`
-    );
-    const event = await response.json();
+    const event = await getEvent(params.slug);
     return {
         title: event.name,
     };
 }
 
 export default async function EventPage({ params }: TEventPageProps) {
-    const slug = params.slug;
-    const response = await fetch(
-        `https://bytegrad.com/course-assets/projects/evento/api/events/${slug}`
-    );
-    const event = await response.json();
+    const event = await getEvent(params.slug);
 
     return (
         <main>
