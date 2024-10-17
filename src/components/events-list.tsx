@@ -4,7 +4,7 @@ import PaginationControls from "./pagination-controls";
 
 type TEventsListProps = {
     city: string;
-    page: number;
+    page?: number;
 };
 
 export default async function EventsList({ city, page }: TEventsListProps) {
